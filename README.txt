@@ -45,9 +45,11 @@ Item Pickups
 		 to run through the health, even if you do not want to pick it up. 
 
 
-Some Improvements Needed
+Some Improvements/Next Steps Needed
 ------------------------
 -Weapon Rotation/rotation clamping can behave better. Sometimes effects weapon rotation.
 -Collisions between enemies and bullets still not working perfectly. Seems some bullets do not collide
  with the enemy even if they should.
+-Moving platform needs features that limit/make the platform use make sense.
+
 
