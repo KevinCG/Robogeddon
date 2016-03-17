@@ -18,6 +18,7 @@ public class Character : MonoBehaviour
 
     //players health
     private float playerHealth;
+    public const int MAXPLAYERHEALTH;
 
 	void Start ()
     {
@@ -128,8 +129,8 @@ public class Character : MonoBehaviour
     
     //Set player's health to 100
     //used by health pickup
-    public void setPlayerHealthTo100()
+    public void setPlayerHealthToMAX()
     {
-        playerHealth = 100;
+        playerHealth = MAXPLAYERHEALTH;
     }
 }
