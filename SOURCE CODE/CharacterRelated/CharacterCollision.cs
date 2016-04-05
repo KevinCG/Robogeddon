@@ -20,7 +20,7 @@ public class CharacterCollision : MonoBehaviour
         {
             transform.parent.transform.GetComponent<Character>().setPlayerHealth(-.4f);
         }
-        else if (col.gameObject.name == "FatBotAnimated 1(Clone)")
+        else if (col.gameObject.name == "FatBotAnimated(Clone)")
         {
             transform.parent.transform.GetComponent<Character>().setPlayerHealth(-.7f);
         }   
@@ -36,7 +36,7 @@ public class CharacterCollision : MonoBehaviour
         {
             transform.parent.transform.GetComponent<Character>().setPlayerHealth(-.4f);
         }
-        else if (col.gameObject.name == "FatBotAnimated 1(Clone)")
+        else if (col.gameObject.name == "FatBotAnimated(Clone)")
         {
             transform.parent.transform.GetComponent<Character>().setPlayerHealth(-.7f);
         }

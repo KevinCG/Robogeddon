@@ -27,7 +27,7 @@ public class fatBot : Enemy {
         health = 100;
 
         //set the original color of the bot
-      //  originalColor = transform.GetChild(0).GetComponent<Renderer>().material.color;  
+        //originalColor = transform.GetChild(0).GetComponent<Renderer>().material.color;  
     }
 
 
@@ -38,18 +38,19 @@ public class fatBot : Enemy {
         //and destroy the bot
         if (health <= 0 && shouldAddKill)
         {
+            //   Destroy(gameObject); //PUT BACK FOR DEMO
+
             Enemy.deadBots++;
-         //   Destroy(gameObject); //PUT BACK FOR DEMO
             shouldAddKill = false;
             Destroy(gameObject);
             //if this bot should drop a health pickup
             //create the health pickup at the bots position
             if (base.shouldDropHealth())
             {
-                 GameObject healthObj = Instantiate(healthPickup) as GameObject; //PUT BACK FOR DEMO
-                 healthObj.transform.position = transform.position + new Vector3(0, 2, 0); //PUT BACK FOR DEMO
+               //GameObject healthObj = Instantiate(healthPickup) as GameObject; //PUT BACK FOR DEMO
+               //healthObj.transform.position = transform.position + new Vector3(0, 2, 0); //PUT BACK FOR DEMO
                
-             //   StartCoroutine(getHealthGameObj());
+                StartCoroutine(getHealthGameObj());
             }
         }
         else

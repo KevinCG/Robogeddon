@@ -1,27 +1,23 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 public class CharacterShoot : MonoBehaviour
 {
     //used for the bullet object pool
-    public GameObject bullet;
+    private GameObject bullet;
     Transform[] bulletPool;
 
     //used to keep track of how many updates
     //and to know when to spawn a bullet
     private int updateCounter = 0;
 
+    //our json object used to read json file
+    jsonClass jsonObject = new jsonClass();
+
     void Start()
     {
-        //initialize the bullet object pool
-        bulletPool = new Transform[500];
-
-        //setup the bullet object pool
-        for(int i = 0; i < bulletPool.Length; i++)
-        {
-            bulletPool[i] = Instantiate(bullet.transform) as Transform;
-            bulletPool[i].gameObject.SetActive(false);
-        }
+        StartCoroutine(makeAmmoPool());   
     }
 
     //use late update here instead of update because
@@ -64,4 +60,54 @@ public class CharacterShoot : MonoBehaviour
         //increment update counter
         updateCounter++;
 	}
+
+    private IEnumerator makeAmmoPool()
+    {
+        //will hold the bundle name we need
+        string newBundle = "ammobundle";
+
+        //will hold the name of the asset
+        string newAssetName = "Bullet";
+
+        //overwrite JSON
+        jsonObject = jsonScript.overWriteJSON(jsonObject, newBundle, newAssetName);
+
+        //get a new www object with our url
+        using (WWW www = new WWW(jsonObject.URL))
+        {
+            //wait for www to finish download
+            //avoids blocking rest of game
+            yield return www;
+            //if there was an error throw an exception with some info
+            if (www.error != null)
+            {
+                throw new Exception("WWW download had an error:" + www.error);
+            }
+
+            //get the asset bundle
+            AssetBundle bundle = www.assetBundle;
+
+            //make a new bullet
+            bullet = Instantiate(bundle.LoadAsset(jsonObject.assetName)) as GameObject;
+            
+            //get rid of double (Clone) in name
+            bullet.name = jsonObject.assetName;
+
+            // Unload stuff to save memory
+            bundle.Unload(false);
+
+            //free memory from web stream?
+            www.Dispose();
+        }
+
+        //initialize the bullet object pool
+        bulletPool = new Transform[500];
+        Transform bulletTransform = bullet.transform;
+        //setup the bullet object pool
+        for (int i = 0; i < bulletPool.Length; i++)
+        {
+            bulletPool[i] = Instantiate(bulletTransform) as Transform;
+            bulletPool[i].gameObject.SetActive(false);
+        }
+    }
 }

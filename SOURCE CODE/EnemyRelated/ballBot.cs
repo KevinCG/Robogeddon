@@ -41,9 +41,9 @@ public class ballBot : Enemy
             //create the health pickup at the bots position
             if (base.shouldDropHealth())
             {
-               // StartCoroutine(getHealthGameObj());
-                 GameObject healthObj = Instantiate(healthPickup) as GameObject;
-                 healthObj.transform.position = transform.position + new Vector3(0, 2, 0);
+                StartCoroutine(getHealthGameObj());
+              //   GameObject healthObj = Instantiate(healthPickup) as GameObject;
+               //  healthObj.transform.position = transform.position + new Vector3(0, 2, 0);
             }
         }
         else

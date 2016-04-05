@@ -98,7 +98,6 @@ public class Enemy : MonoBehaviour
 
     protected IEnumerator getHealthGameObj()
     {
-   //     Debug.Log("ienum");
         //Change the bundle and asset name to load the correct asset from the correct place
         newBundle = "healthbundle";
         newAssetName = "HealthPickup";
@@ -106,12 +105,9 @@ public class Enemy : MonoBehaviour
         //overwrite JSON
         jsonObject = jsonScript.overWriteJSON(jsonObject, newBundle, newAssetName);
 
-       // Debug.Log(jsonObject.URL);
-       // Debug.Log(jsonObject.assetName);
         //get a new www object with our url
         using (WWW www = new WWW(jsonObject.URL))
         {
-      //      Debug.Log("Spawn health???");
             //wait for www to finish download
             //avoids blocking rest of game
             yield return www;
@@ -125,11 +121,11 @@ public class Enemy : MonoBehaviour
             //get the asset bundle
             AssetBundle bundle = www.assetBundle;
             
-            //make a new bot
+            //make a health pickup and destroy the bot
             GameObject health = Instantiate(bundle.LoadAsset(jsonObject.assetName)) as GameObject;
             health.transform.position = transform.position + new Vector3(0,2,0);
-            //   Debug.Log(healthPickup);
             Destroy(gameObject);    
+
             // Unload stuff to save memory
             bundle.Unload(false);
 
@@ -142,7 +138,7 @@ public class Enemy : MonoBehaviour
     {
         //decrement health until it reaches 0
         //and make the bot "flash red"
-        if (col.gameObject.name == "Bullet(Clone)")
+        if (col.gameObject.name == "Bullet(Clone)" || col.gameObject.name == "Bullet")
         {
             dmgAnim.SetBool("hit", true);
             health -= PlayerBullet.getBulletDamage();

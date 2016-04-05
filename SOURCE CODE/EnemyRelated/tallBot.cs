@@ -45,10 +45,10 @@ public class tallBot : Enemy
             //create the health pickup at the bots position
             if (base.shouldDropHealth())
             {
-                GameObject healthObj = Instantiate(healthPickup) as GameObject; //PUT BACK FOR DEMO
-                healthObj.transform.position = transform.position + new Vector3(0, 2, 0); //PUT BACK FOR DEMO
+               // GameObject healthObj = Instantiate(healthPickup) as GameObject; //PUT BACK FOR DEMO
+               // healthObj.transform.position = transform.position + new Vector3(0, 2, 0); //PUT BACK FOR DEMO
                 
-                //    StartCoroutine(getHealthGameObj());
+                    StartCoroutine(getHealthGameObj());
             }
 
         }
@@ -59,23 +59,4 @@ public class tallBot : Enemy
         }
     }
 
-    /*void OnCollisionEnter(Collision col)
-    {
-        //decrement health until it reaches 0
-        //and make the bot "flash red"
-        if (col.gameObject.name == "Bullet(Clone)")
-        {
-            dmgAnim.SetBool("hit", true);
-
-            health -= PlayerBullet.getBulletDamage();
-            //StartCoroutine(base.changeEnemyColor());
-            StartCoroutine(leaveDmgAnim());
-        }
-    }
-
-    IEnumerator leaveDmgAnim()
-    {
-        yield return new WaitForSeconds(.5f);
-        dmgAnim.SetBool("hit", false);
-    }*/
 }

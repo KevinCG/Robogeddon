@@ -38,7 +38,7 @@ public class UI : MonoBehaviour
     {
         timeElapsedText.text = "Time Elapsed: " + Time.timeSinceLevelLoad.ToString("F2");
         playerKillsText.text = "Kills: " + Enemy.deadBots;
-        waveNumberText.text = "Wave: " + EnemySpawner.waveNumber.ToString();
+        waveNumberText.text = "Wave: " + EnemySpawnerTwo.waveNumber.ToString();
         healthText.text = player.GetComponent<Character>().getPlayerHealth().ToString("F0") + " / 100";
     }
 
