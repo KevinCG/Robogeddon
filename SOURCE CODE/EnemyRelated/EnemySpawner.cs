@@ -87,18 +87,24 @@ public class EnemySpawner : MonoBehaviour
                         newBot = Instantiate(fatBot) as GameObject;
                         break;
                 }
-
-                //spawn the bot at the spawn point chosen randomly
-                int spawnerToUse = Random.Range(1, 3);
-                switch (spawnerToUse)
-                {
-                    case 1:
-                        newBot.transform.position = spawnPoint1.transform.position;
-                        break;
-                    case 2:
-                        newBot.transform.position = spawnPoint2.transform.position;
-                        break;
-                }
+             //   if (botToSpawn == 2)
+             //   {
+                   // newBot.transform.position = spawnPoint1.transform.position - new Vector3(0,-.3f, 0);
+             //   }
+             //   else
+             //   { 
+                    //spawn the bot at the spawn point chosen randomly
+                    int spawnerToUse = Random.Range(1, 3);
+                    switch (spawnerToUse)
+                    {
+                        case 1:
+                            newBot.transform.position = spawnPoint1.transform.position;
+                            break;
+                        case 2:
+                            newBot.transform.position = spawnPoint2.transform.position;
+                            break;
+                    }
+             //   }
 
                 //wait a little before we continue to spawn more bots
                 yield return new WaitForSeconds(timeBetweenEnemies);

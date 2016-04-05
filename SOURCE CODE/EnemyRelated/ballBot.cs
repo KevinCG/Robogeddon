@@ -7,9 +7,12 @@ public class ballBot : Enemy
     //finding/following the player
     private Transform player;
     private NavMeshAgent agent;
+    
 
-	void Start ()
+    void Start ()
     {
+        dmgAnim = transform.GetChild(0).GetComponent<Animator>();
+
         //set the original target destination of the bot
         player = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
@@ -19,7 +22,7 @@ public class ballBot : Enemy
         health = 25;
 
         //set the original color of the bot
-        originalColor = transform.GetChild(0).GetComponent<Renderer>().material.color;
+      //  originalColor = transform.GetChild(0).GetComponent<Renderer>().material.color;
 
     }
 	
@@ -38,8 +41,9 @@ public class ballBot : Enemy
             //create the health pickup at the bots position
             if (base.shouldDropHealth())
             {
-                GameObject healthObj = Instantiate(healthPickup) as GameObject;
-                healthObj.transform.position = transform.position + new Vector3(0, 2, 0);
+               // StartCoroutine(getHealthGameObj());
+                 GameObject healthObj = Instantiate(healthPickup) as GameObject;
+                 healthObj.transform.position = transform.position + new Vector3(0, 2, 0);
             }
         }
         else
@@ -49,7 +53,7 @@ public class ballBot : Enemy
         }
     }
 
-    void OnCollisionEnter(Collision col)
+   /* void OnCollisionEnter(Collision col)
     {
         //decrement health until it reaches 0
         //and make the bot "flash red"
@@ -58,5 +62,5 @@ public class ballBot : Enemy
             health -= PlayerBullet.getBulletDamage();
             StartCoroutine(base.changeEnemyColor());
         }    
-    }
+    }*/
 }

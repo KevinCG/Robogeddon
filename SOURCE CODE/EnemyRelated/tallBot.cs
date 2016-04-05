@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 public class tallBot : Enemy
@@ -8,8 +9,15 @@ public class tallBot : Enemy
     private Transform player;
     private NavMeshAgent agent;
 
-    void Start ()
+    private bool shouldAddKill = true;
+
+    //our json object used to read json file
+   // jsonClass jsonObject = new jsonClass();
+
+    void Start()
     {
+        dmgAnim = transform.GetChild(0).transform.GetChild(0).GetComponent<Animator>();
+
         //set the original target destination of the bot
         player = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
@@ -19,26 +27,28 @@ public class tallBot : Enemy
         health = 45;
 
         //set the original color of the bot
-        originalColor = transform.GetChild(0).GetComponent<Renderer>().material.color;
+      //  originalColor = transform.GetChild(0).GetComponent<Renderer>().material.color;
 
     }
-	
-	void Update ()
+
+    void Update()
     {
         //if the bot should be dead
         //add a player kill
         //and destroy the bot
-        if (health <= 0)
+        if (health <= 0 && shouldAddKill)
         {
             Enemy.deadBots++;
+            shouldAddKill = false;
             Destroy(gameObject);
-
             //if this bot should drop a health pickup
             //create the health pickup at the bots position
             if (base.shouldDropHealth())
             {
-                GameObject healthObj = Instantiate(healthPickup) as GameObject;
-                healthObj.transform.position = transform.position + new Vector3(0, 2, 0);
+                GameObject healthObj = Instantiate(healthPickup) as GameObject; //PUT BACK FOR DEMO
+                healthObj.transform.position = transform.position + new Vector3(0, 2, 0); //PUT BACK FOR DEMO
+                
+                //    StartCoroutine(getHealthGameObj());
             }
 
         }
@@ -49,16 +59,23 @@ public class tallBot : Enemy
         }
     }
 
-    void OnCollisionEnter(Collision col)
+    /*void OnCollisionEnter(Collision col)
     {
-        //decrement health until it reaches 0 
+        //decrement health until it reaches 0
         //and make the bot "flash red"
         if (col.gameObject.name == "Bullet(Clone)")
         {
+            dmgAnim.SetBool("hit", true);
+
             health -= PlayerBullet.getBulletDamage();
-            StartCoroutine(base.changeEnemyColor());
+            //StartCoroutine(base.changeEnemyColor());
+            StartCoroutine(leaveDmgAnim());
         }
-
-
     }
+
+    IEnumerator leaveDmgAnim()
+    {
+        yield return new WaitForSeconds(.5f);
+        dmgAnim.SetBool("hit", false);
+    }*/
 }

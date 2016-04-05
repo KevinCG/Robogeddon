@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 public class Enemy : MonoBehaviour
@@ -18,8 +19,18 @@ public class Enemy : MonoBehaviour
     private Color flashColor = Color.red;
     protected Color originalColor;
 
-    //Holds health pickup object
+    private string newBundle;
+    private string newAssetName;
+
+    protected Animator dmgAnim;
+
     public GameObject healthPickup;
+
+    //Holds health pickup object
+    // public GameObject healthPickup;
+
+    //our json object used to read json file
+    jsonClass jsonObject = new jsonClass();
 
     //this coroutine handles the enemies flashing
     //red when a bullet hits them as well
@@ -32,7 +43,7 @@ public class Enemy : MonoBehaviour
         {
             if (child.childCount == 0)
             {
-                child.GetComponent<Renderer>().material.color = flashColor;
+               // child.GetComponent<Renderer>().material.color = flashColor;
             }
             else
             {
@@ -40,7 +51,7 @@ public class Enemy : MonoBehaviour
                 {
                     if (childInner.gameObject.name != ("HealthTrigger"))
                     {
-                        childInner.GetComponent<Renderer>().material.color = flashColor;
+                    //    childInner.GetComponent<Renderer>().material.color = flashColor;
                     }
                 }
             }
@@ -52,7 +63,7 @@ public class Enemy : MonoBehaviour
         {
             if (child.childCount == 0)
             {
-                child.GetComponent<Renderer>().material.color = originalColor;
+                //child.GetComponent<Renderer>().material.color = originalColor;
             }
             else
             {
@@ -60,7 +71,7 @@ public class Enemy : MonoBehaviour
                 {
                     if (childInner.gameObject.name != ("HealthTrigger"))
                     {
-                        childInner.GetComponent<Renderer>().material.color = originalColor;
+                      //  childInner.GetComponent<Renderer>().material.color = originalColor;
                     }
                 }
             }
@@ -73,7 +84,7 @@ public class Enemy : MonoBehaviour
     //pickup will be dropped
     protected bool shouldDropHealth()
     {
-        int randomInt = Random.Range(1, 20);
+        int randomInt = UnityEngine.Random.Range(1, 20);
 
         if(randomInt == 1)
         {
@@ -83,5 +94,66 @@ public class Enemy : MonoBehaviour
         {
             return false;
         }
+    }
+
+    protected IEnumerator getHealthGameObj()
+    {
+   //     Debug.Log("ienum");
+        //Change the bundle and asset name to load the correct asset from the correct place
+        newBundle = "healthbundle";
+        newAssetName = "HealthPickup";
+
+        //overwrite JSON
+        jsonObject = jsonScript.overWriteJSON(jsonObject, newBundle, newAssetName);
+
+       // Debug.Log(jsonObject.URL);
+       // Debug.Log(jsonObject.assetName);
+        //get a new www object with our url
+        using (WWW www = new WWW(jsonObject.URL))
+        {
+      //      Debug.Log("Spawn health???");
+            //wait for www to finish download
+            //avoids blocking rest of game
+            yield return www;
+
+            //if there was an error throw an exception with some info
+            if (www.error != null)
+            {
+                throw new Exception("WWW download had an error:" + www.error);
+            }
+
+            //get the asset bundle
+            AssetBundle bundle = www.assetBundle;
+            
+            //make a new bot
+            GameObject health = Instantiate(bundle.LoadAsset(jsonObject.assetName)) as GameObject;
+            health.transform.position = transform.position + new Vector3(0,2,0);
+            //   Debug.Log(healthPickup);
+            Destroy(gameObject);    
+            // Unload stuff to save memory
+            bundle.Unload(false);
+
+            //free memory from web stream?
+            www.Dispose();
+        }
+    }
+
+    void OnCollisionEnter(Collision col)
+    {
+        //decrement health until it reaches 0
+        //and make the bot "flash red"
+        if (col.gameObject.name == "Bullet(Clone)")
+        {
+            dmgAnim.SetBool("hit", true);
+            health -= PlayerBullet.getBulletDamage();
+          //  StartCoroutine(base.changeEnemyColor());
+            StartCoroutine(leaveDmgAnim());
+        }
+    }
+
+    IEnumerator leaveDmgAnim()
+    {
+        yield return new WaitForSeconds(.5f);
+        dmgAnim.SetBool("hit", false);
     }
 }

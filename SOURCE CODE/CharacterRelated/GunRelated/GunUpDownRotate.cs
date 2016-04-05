@@ -35,6 +35,7 @@ public class GunUpDownRotate : MonoBehaviour
             //used when no clamping needed
             rotateUpDown.y += playerRotationUpDown * rotateSpeed;
             rotateUpDown.z = 0;
+            rotateUpDown.x = 0;
             rotateUpDown *= Time.deltaTime;
 
             //handles the gun's differing rotations.

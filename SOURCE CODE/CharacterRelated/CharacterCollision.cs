@@ -12,15 +12,15 @@ public class CharacterCollision : MonoBehaviour
     */
     void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.name == "BallBot(Clone)")
+        if (col.gameObject.name == "BallBotAnimated(Clone)")
         {
             transform.parent.transform.GetComponent<Character>().setPlayerHealth(-.2f);
         }
-        else if (col.gameObject.name == "TallBot 1(Clone)")
+        else if (col.gameObject.name == "TallBotAnimated(Clone)")
         {
             transform.parent.transform.GetComponent<Character>().setPlayerHealth(-.4f);
         }
-        else if (col.gameObject.name == "FatBot 1(Clone)")
+        else if (col.gameObject.name == "FatBotAnimated 1(Clone)")
         {
             transform.parent.transform.GetComponent<Character>().setPlayerHealth(-.7f);
         }   
@@ -28,15 +28,15 @@ public class CharacterCollision : MonoBehaviour
 
     void OnTriggerStay(Collider col)
     {
-        if (col.gameObject.name == "BallBot(Clone)")
+        if (col.gameObject.name == "BallBotAnimated(Clone)")
         {
             transform.parent.transform.GetComponent<Character>().setPlayerHealth(-.2f);
         }
-        else if (col.gameObject.name == "TallBot 1(Clone)")
+        else if (col.gameObject.name == "TallBotAnimated(Clone)" || col.name == "unitychan(Clone)") 
         {
             transform.parent.transform.GetComponent<Character>().setPlayerHealth(-.4f);
         }
-        else if (col.gameObject.name == "FatBot 1(Clone)")
+        else if (col.gameObject.name == "FatBotAnimated 1(Clone)")
         {
             transform.parent.transform.GetComponent<Character>().setPlayerHealth(-.7f);
         }

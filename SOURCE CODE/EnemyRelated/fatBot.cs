@@ -7,6 +7,7 @@ public class fatBot : Enemy {
     //finding/following the player
     private Transform player;
     private NavMeshAgent agent;
+   // private Animator dmgAnim;
 
     private bool shouldAddKill = true;
 
@@ -16,6 +17,7 @@ public class fatBot : Enemy {
 
     void Start()
     {
+        dmgAnim = transform.GetChild(0).transform.GetChild(0).GetComponent<Animator>();
         //set the original target destination of the bot
         player = GameObject.Find("Player").transform; 
         agent = GetComponent<NavMeshAgent>(); 
@@ -25,8 +27,7 @@ public class fatBot : Enemy {
         health = 100;
 
         //set the original color of the bot
-        originalColor = transform.GetChild(0).GetComponent<Renderer>().material.color;
-
+      //  originalColor = transform.GetChild(0).GetComponent<Renderer>().material.color;  
     }
 
 
@@ -38,15 +39,17 @@ public class fatBot : Enemy {
         if (health <= 0 && shouldAddKill)
         {
             Enemy.deadBots++;
-            Destroy(gameObject);
+         //   Destroy(gameObject); //PUT BACK FOR DEMO
             shouldAddKill = false;
-
+            Destroy(gameObject);
             //if this bot should drop a health pickup
             //create the health pickup at the bots position
             if (base.shouldDropHealth())
             {
-                GameObject healthObj = Instantiate(healthPickup) as GameObject;
-                healthObj.transform.position = transform.position + new Vector3(0, 2, 0);
+                 GameObject healthObj = Instantiate(healthPickup) as GameObject; //PUT BACK FOR DEMO
+                 healthObj.transform.position = transform.position + new Vector3(0, 2, 0); //PUT BACK FOR DEMO
+               
+             //   StartCoroutine(getHealthGameObj());
             }
         }
         else
@@ -54,18 +57,32 @@ public class fatBot : Enemy {
             //update the target destination of the bot
             agent.destination = player.position;
         }
+
     }
 
-    void OnCollisionEnter(Collision col)
+   /* void OnCollisionEnter(Collision col)
     {
         //decrement health until it reaches 0
         //and make the bot "flash red"
         if (col.gameObject.name == "Bullet(Clone)")
         {
+            dmgAnim.SetBool("hit", true);
+            
             health -= PlayerBullet.getBulletDamage();
             StartCoroutine(base.changeEnemyColor());
+            StartCoroutine(leaveDmgAnim());
         }
+    }*/
+
+    public Vector3 getNavAgentVelocity()
+    {
+        return agent.velocity;
     }
 
-    
+   /* IEnumerator leaveDmgAnim()
+    {
+        yield return new WaitForSeconds(.5f);
+        dmgAnim.SetBool("hit", false);
+    }
+    */
 }

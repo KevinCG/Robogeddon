@@ -18,7 +18,7 @@ public class Character : MonoBehaviour
 
     //players health
     private float playerHealth;
-    public const int MAXPLAYERHEALTH;
+    public const int MAXPLAYERHEALTH = 100;
 
 	void Start ()
     {
@@ -30,6 +30,7 @@ public class Character : MonoBehaviour
 
         //Get rid of the cursor
         Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
 
         //Setting the game back to regular speed
         Time.timeScale = 1;
@@ -41,6 +42,10 @@ public class Character : MonoBehaviour
         //"pause the game"
         if(playerHealth <= 0)
         {
+            playerHealth = 0;
+            //Get rid of the cursor
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
             Time.timeScale = 0;
         }
 

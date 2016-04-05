@@ -5,7 +5,7 @@ public class CharacterShoot : MonoBehaviour
 {
     //used for the bullet object pool
     public GameObject bullet;
-    GameObject[] bulletPool;
+    Transform[] bulletPool;
 
     //used to keep track of how many updates
     //and to know when to spawn a bullet
@@ -14,13 +14,13 @@ public class CharacterShoot : MonoBehaviour
     void Start()
     {
         //initialize the bullet object pool
-        bulletPool = new GameObject[500];
+        bulletPool = new Transform[500];
 
         //setup the bullet object pool
         for(int i = 0; i < bulletPool.Length; i++)
         {
-            bulletPool[i] = Instantiate(bullet) as GameObject;
-            bulletPool[i].SetActive(false);
+            bulletPool[i] = Instantiate(bullet.transform) as Transform;
+            bulletPool[i].gameObject.SetActive(false);
         }
     }
 
@@ -40,18 +40,18 @@ public class CharacterShoot : MonoBehaviour
                 for(int i = 0; i < bulletPool.Length; i++)
                 {
                     //if we find a bullet that is not active
-                    if(!bulletPool[i].activeInHierarchy)
+                    if(!bulletPool[i].gameObject.activeInHierarchy)
                     {
                         //Make sure the bullet is not moving or spinning
-                        bulletPool[i].transform.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                        bulletPool[i].transform.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+                        bulletPool[i].GetComponent<Rigidbody>().velocity = Vector3.zero;
+                        bulletPool[i].GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
 
                         //assign the position and rotation of the bullet
-                        bulletPool[i].transform.rotation = transform.rotation;
-                        bulletPool[i].transform.position = transform.position + transform.up * .8f;
+                        bulletPool[i].rotation = transform.rotation;
+                        bulletPool[i].position = transform.position + transform.up * .8f;
                         
                         //make it active in the scene
-                        bulletPool[i].SetActive(true);
+                        bulletPool[i].gameObject.SetActive(true);
 
                         //stop looking for a bullet
                         //we found one that was available
