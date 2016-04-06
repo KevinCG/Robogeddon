@@ -28,16 +28,17 @@ public class EnemySpawnerTwo : MonoBehaviour
     //our json object used to read json file
     jsonClass jsonObject = new jsonClass();
 
+    //holds the spawn points
     private GameObject spawnPoint1;
     private GameObject spawnPoint2;
 
     void Start()
     {
-        //find spawn point one
+        //set spawn point 1
         spawnPoint1 = GameObject.Find("EnemySpawner1");
         spawnPoint1 = spawnPoint1.transform.GetChild(2).gameObject;
 
-        //find spawn point two
+        //set spawn point 2
         spawnPoint2 = GameObject.Find("EnemySpawner2");
         spawnPoint2 = spawnPoint2.transform.GetChild(2).gameObject;
         
@@ -149,7 +150,7 @@ public class EnemySpawnerTwo : MonoBehaviour
                      www.Dispose();
                  }
 
-                //set its position
+                //set which spawner to spawn the bot at
                 int spawnerToUse = UnityEngine.Random.Range(1, 3);
                 switch (spawnerToUse)
                 {
@@ -160,10 +161,12 @@ public class EnemySpawnerTwo : MonoBehaviour
                         newBot.transform.position = spawnPoint2.transform.position;
                         break;
                 }
+
+                //NOT IN USE
                 //disable and then enable navmesh agent to avoid bad behavior
-                // newBot.GetComponent<NavMeshAgent>().enabled = false;
-                // newBot.transform.position = transform.position;
-                //  newBot.GetComponent<NavMeshAgent>().enabled = true;
+                //newBot.GetComponent<NavMeshAgent>().enabled = false;
+                //newBot.transform.position = transform.position;
+                //newBot.GetComponent<NavMeshAgent>().enabled = true;
 
                 //wait a little before we continue to spawn more bots
                 yield return new WaitForSeconds(timeBetweenEnemies);
