@@ -33,11 +33,14 @@ public class EnemySpawnerTwo : MonoBehaviour
 
     void Start()
     {
+        //find spawn point one
         spawnPoint1 = GameObject.Find("EnemySpawner1");
         spawnPoint1 = spawnPoint1.transform.GetChild(2).gameObject;
 
+        //find spawn point two
         spawnPoint2 = GameObject.Find("EnemySpawner2");
         spawnPoint2 = spawnPoint2.transform.GetChild(2).gameObject;
+        
         //how many enemies to spawn on first wave
         enemiesToSpawn = 10;
 
